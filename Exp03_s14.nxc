@@ -1,0 +1,29 @@
+#include "NXCDefs.h"
+
+task main() {
+    SetSensorLowspeed(IN_4);
+    SetSensorColorFull(IN_3);
+
+    while (true) {
+        OnFwd(OUT_A, 75);
+        OnFwd(OUT_C, 25);
+        SetSensorColorGreen(IN_3);
+
+        if (SensorUS(IN_4) <= 25){
+            Off(OUT_AC);
+            SetSensorColorBlue(IN_3);
+            PlayTone(1000,1000);
+            Wait(2500);
+
+            while (SensorUS(IN_4) <= 40){
+                RotateMotor(OUT_B, 75, 360);
+                SetSensorColorRed(IN_3);
+                Wait(2000);
+                if (SensorUS(IN_4) > 20) {
+                   break;
+                }
+            }
+        }
+    }
+}
+
